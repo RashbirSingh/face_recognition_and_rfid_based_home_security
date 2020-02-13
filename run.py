@@ -24,8 +24,9 @@ elif str(sys.argv[1]).lower() == 'recognise':
 elif str(sys.argv[1]).lower() == 'card':
     name = input("Entre user name: ")
     code = input("Entre user card code: ")
-    print(RFID.Create_RFID(name=name,
-                           RFID_code=code))
+    print(RFID.RFID_db('insert',
+                       name,
+                       code))
     
 elif str(sys.argv[1]).lower() == 'data':
     cwd = os.getcwd()
