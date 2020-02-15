@@ -87,11 +87,11 @@ class RFID():
                     print('FOUND ',name)
                     ser.write(b"1")
                     time.sleep(0.5)
-                    return True
+                    # return True
                 else:
                     print("UNKNOWN")
                     ser.write(b"2")
-                    return False
+                    # return False
 #            return self.RFID_dict 
 
 # =============================================================================
