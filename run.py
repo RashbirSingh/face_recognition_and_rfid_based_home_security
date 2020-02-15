@@ -11,6 +11,8 @@ from pythonFaceRecog import python_face_recognition
 from RFID import RFID
 import sys
 
+rfid = RFID()
+
 run = python_face_recognition()
 if str(sys.argv[1]).lower() == 'encodecnn':
     run.encode( detection_method = 'cnn')
@@ -22,11 +24,16 @@ elif str(sys.argv[1]).lower() == 'recognise':
     run.recognise()
     
 elif str(sys.argv[1]).lower() == 'card':
-    name = input("Entre user name: ")
-    code = input("Entre user card code: ")
-    print(RFID.RFID_db('insert',
-                       name,
-                       code))
+    action = input("Entre the action to perform: ")
+    if action.lower() == 'insert':
+        name = input("Entre user name: ")
+        code = input("Entre user card code: ")
+        print(rfid.RFID_db(action,
+                           name,
+                           code))
+        
+    if action.lower() == 'create':
+        print(rfid.RFID_db(operation=action))
     
 elif str(sys.argv[1]).lower() == 'data':
     cwd = os.getcwd()

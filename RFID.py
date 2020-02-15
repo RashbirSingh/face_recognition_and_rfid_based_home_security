@@ -21,7 +21,7 @@ class RFID():
     def __init__(self):
         self.RFID_dict = {}
         self.db = pymysql.connect(os.getenv("URL"),
-                                  os.getenv("USER"),
+                                  os.getenv("DBUSER"),
                                   os.getenv("PASS"),
                                   os.getenv("DATABASE"))
         self.cursor = self.db.cursor()
@@ -54,7 +54,7 @@ class RFID():
             
             sql = """CREATE TABLE RFID (
             NAME  CHAR(20) NOT NULL,
-            CODE INT(100) NOT NULL )"""
+            CODE VARCHAR(100) NOT NULL )"""
             print(sql)
             self.executeSQL(sql)
             
@@ -63,8 +63,7 @@ class RFID():
 # =============================================================================
 
         elif operation == 'insert':
-            sql = """INSERT INTO RFID(NAME, CODE)
-            VALUES ('"""+name+"""','"""+code+"""')"""
+            sql = "INSERT INTO RFID(NAME, CODE) VALUES ('"+name+"','"+code+"')"
             print(sql)
             self.executeSQL(sql)
             
@@ -73,7 +72,7 @@ class RFID():
 # =============================================================================
             
         elif operation == 'match':
-            ser = serial.Serial("/dev/ttyACM0",9600)
+            ser = serial.Serial("/dev/cu.usbmodem14101",9600)
             ser.flushInput()
             sql = """SELECT * FROM RFID"""
             print(sql)
@@ -87,8 +86,10 @@ class RFID():
                 if re.match(name ,nameList, flags=re.I):
                     print('FOUND ',name)
                     ser.write(b"1")
+                    time.sleep(0.5)
                     return True
                 else:
+                    print("UNKNOWN")
                     ser.write(b"2")
                     return False
 #            return self.RFID_dict 
